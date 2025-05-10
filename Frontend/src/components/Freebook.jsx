@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-
 import axios from "axios";
-
 import Cards from "./Cards";
+
 function Freebook() {
   const [book, setBook] = useState([]);
   useEffect(() => {
     const getBook = async () => {
       try {
-        const res = await axios.get("http://localhost:4001/book");
+        const res = await axios.get("https://book-backend-jv7d.onrender.com/book");
 
         const data = res.data;
-        console.log(data);
+        // console.log(data);
         setBook(data);
       } catch (error) {
         console.log(error);
@@ -72,8 +70,8 @@ function Freebook() {
 
         <div>
           <Slider {...settings}>
-            {book.map((item) => (
-              <Cards item={item} key={item.id} />
+            {book.slice(0, 5).map((item, index) => (
+              <Cards item={item} key={index} />
             ))}
           </Slider>
         </div>

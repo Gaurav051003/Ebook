@@ -1,6 +1,17 @@
 import React from "react";
 
 function Cards({ item }) {
+  const BASE_URL = "https://book-backend.vercel.app"; // ✅ Replace with your actual backend URL
+
+   const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = `${BASE_URL}${item.pdf}`; // ✅ Full path
+    link.download = `${item.name}.pdf`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+  
   return (
     <>
       <div className="mt-4 my-3 p-3">

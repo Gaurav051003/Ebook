@@ -2,16 +2,27 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
+import path from "path"; // ✅ Add this
+import { fileURLToPath } from "url"; // ✅ For __dirname in ES Module
 
 import bookRoute from "./route/book.route.js";
 import userRoute from "./route/user.route.js";
 
-const app = express();
+dotenv.config();
 
-app.use(cors());
+const app = express();
+app.use(cors({
+  origin: 'https://book-frontend-three.vercel.app',
+  credentials: true
+}));
 app.use(express.json());
 
-dotenv.config();
+// ✅ Get __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ✅ Serve PDFs statically
+app.use('/pdfs', express.static(path.join(__dirname, 'public/pdfs')));
 
 const PORT = process.env.PORT || 4001;
 const URI = process.env.MongoDBURI;

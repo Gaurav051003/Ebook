@@ -1,37 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import Home from "./home/Home";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Courses from "./courses/Courses";
 import Signup from "./components/Signup";
+import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
 import { useAuth } from "./context/AuthProvider";
+import Courses from "./courses/Courses";
+import About from "./components/About";
+import Contact from "./components/Contact";
 
 
 function App() {
   const [authUser, setAuthUser] = useAuth();
-  console.log(authUser);
-
-  const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-
-  useEffect(() => {
-    // ✅ Use it to make an API call
-    fetch(`${apiUrl}/api/books`)
-      .then((res) => res.json())
-      .then((data) => setBooks(data))
-      .catch((err) => console.error('Error fetching books:', err));
-  }, []);
 
   return (
     <>
-      <div className="dark:bg-slate-900 dark:text-white">
+      <div className="dark:bg-slate-900 dark:text-white min-h-screen">
+        <Navbar /> 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route
-            path="/course"
-            element={authUser ? <Courses /> : <Navigate to="/signup" />}
-          />
+          <Route path="/book" element={authUser ? <Courses /> : <Navigate to="/signup" />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
+
         <Toaster />
       </div>
     </>
